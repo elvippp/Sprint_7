@@ -1,92 +1,74 @@
-import Models.Order;
-import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
+import models.Order;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
+@RunWith(Parameterized.class)
 public class OrderTest {
+
+    private Helper helper;
+
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String metroStation;
+    private String phone;
+    private String deliveryDate;
+    private String comment;
+    private List<String> colors;
+    private int rentTime;
+
+
+    public OrderTest(String firstName, String lastName, String address, String metroStation,
+                     String phone, int rentTime, String deliveryDate,
+                     String comment, List<String> colors) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.metroStation = metroStation;
+        this.phone = phone;
+        this.rentTime = rentTime;
+        this.deliveryDate = deliveryDate;
+        this.comment = comment;
+        this.colors = colors;
+    }
+
+    @Parameterized.Parameters
+    public static Object[][] getOrderData() {
+        return new Object[][]{
+                {"Elvira", "Kek", "KZN, 1 apt.", "22", "+7 800 333 23 23", 3, "2025-07-09", "Call please", new ArrayList<String>(List.of("GRAY"))},
+                {"Elvira", "Kek", "KZN, 1 apt.", "22", "+7 800 333 23 23", 3, "2025-07-09", "Call please", new ArrayList<String>(List.of("GRAY", "BLACK"))},
+                {"Elvira", "Kek", "KZN, 1 apt.", "22", "+7 800 333 23 23", 3, "2025-07-09", "Call please", new ArrayList<String>()},
+                {"Elvira", "Kek", "KZN, 1 apt.", "22", "+7 800 333 23 23", 3, "2025-07-09", "Call please", new ArrayList<String>(List.of("BLACK"))},
+        };
+    }
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
+        helper = new Helper();
     }
 
+    /**
+     * Тест на успешное создание заказа с одним цветом/двумя/без цвета
+     */
     @Test
-    @Step("Check the track of the created order with one color of the scooter")
-    public void createOrder() {
-        List<String> colors = new ArrayList<>();
-        colors.add("BLACK");
-        Order order = new Order("ninka", "nika",
-                "Mens,12 apt.", "4", "+7 800 355 35 35",
-                "5", "2024-09-12", "please wait",
-                colors);
+    @DisplayName("Check the track of the created order with different input parameters of color  the scooter")
+    public void createOrderTest() {
+        Order order = new Order(firstName, lastName, address, metroStation,
+                phone, rentTime, deliveryDate, comment, colors);
 
-        Response response =
-                (Response) given()
-                        .header("Content-type", "application/json")
-                        .and()
-                        .body(order)
-                        .when()
-                        .post("/api/v1/orders");
-
+        Response response = helper.createOrder(order);
 
         response.then().assertThat().body("track", notNullValue())
                 .and()
                 .statusCode(201);
     }
-
-    @Test
-    @Step("Check the track of the created order with two color of the scooter")
-    public void createTwoColorOrder() {
-        List<String> colors = new ArrayList<>();
-        colors.add("BLACK");
-        colors.add("GREY");
-        Order order = new Order("nina", "nik", "Mens,12 apt.", "4",
-                "+7 800 355 35 35", "5", "2024-09-12", "please wait",
-                colors);
-
-        Response response =
-                (Response) given()
-                        .header("Content-type", "application/json")
-                        .and()
-                        .body(order)
-                        .when()
-                        .post("/api/v1/orders");
-
-
-        response.then().assertThat().body("track", notNullValue())
-                .and()
-                .statusCode(201);
-    }
-
-    @Test
-    @Step("Check the track of the created order without the color of the scooter")
-    public void createNotColorOrder() {
-        List<String> colors = new ArrayList<String>();
-        Order order = new Order("nina", "nik", "Mens,12 apt.", "4",
-                "+7 800 355 35 35", "5", "2024-09-12", "please wait",
-                colors);
-
-        Response response =
-                (Response) given()
-                        .header("Content-type", "application/json")
-                        .and()
-                        .body(order)
-                        .when()
-                        .post("/api/v1/orders");
-
-
-        response.then().assertThat().body("track", notNullValue())
-                .and()
-                .statusCode(201);
-    }
-
 }

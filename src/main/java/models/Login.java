@@ -1,4 +1,4 @@
-package Models;
+package models;
 
 /**
  * Модель запрос Логина

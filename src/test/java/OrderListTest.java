@@ -1,24 +1,23 @@
 import io.qameta.allure.Step;
-import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
-
+/**
+ * Класс тестирования получения списка заказов
+ */
 public class OrderListTest {
+    private Helper helper;
 
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru";
+        helper = new Helper();
     }
 
     @Test
     @Step("Check status code of all order list")
     public void allOrderListTest() {
-        given()
-                .get("/api/v1/orders")
-                .then().statusCode(200);
-
+        Response response = helper.getOrdersList();
+        response.then().statusCode(200);
     }
 }

@@ -1,4 +1,7 @@
-package Models;
+package models;
+
+import lombok.Getter;
+
 import java.util.List;
 
 /**
@@ -10,7 +13,7 @@ public class Order {
     private String address;
     private String metroStation;
     private String phone;
-    private String rentTime;
+    private int rentTime;
     private String deliveryDate;
     private String comment;
     private List<String> color;
@@ -58,11 +61,11 @@ public class Order {
     }
 
 
-    public String getRentTime() {
+    public int getRentTime() {
         return rentTime;
     }
 
-    public void setRentTime(String rentTime) {
+    public void setRentTime(int rentTime) {
         this.rentTime = rentTime;
     }
 
@@ -93,7 +96,8 @@ public class Order {
         this.color = color;
     }
 
-    public Order(String firstName, String lastName, String address, String metroStation, String phone, String rentTime, String deliveryDate, String comment, List<String> color) {
+    public Order(String firstName, String lastName, String address, String metroStation,
+                 String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
