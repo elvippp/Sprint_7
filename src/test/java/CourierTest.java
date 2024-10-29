@@ -72,7 +72,7 @@ public class CourierTest {
 
         // Проверяем правильное сообщение об ошибке
         assertThat(duplicateCourierResponse.jsonPath().getString("message"),
-                is(helper.SAME_LOGIN_ERROR_MESSAGE));
+                is(Helper.SAME_LOGIN_ERROR_MESSAGE));
         courierId = helper.getCourierId(new Login(courier.getLogin(), courier.getPassword()));
         assertThat(courierId, is(not(-1)));
     }
@@ -87,7 +87,7 @@ public class CourierTest {
 
         response.then().assertThat().statusCode(400);
         assertThat(response.jsonPath().getString("message"),
-                is(helper.LACK_DATA_TO_CREATE_COURIER));
+                is(Helper.LACK_DATA_TO_CREATE_COURIER));
     }
 
     // Тест с возвращаем ошибки, если одного из полей нет
@@ -100,6 +100,6 @@ public class CourierTest {
 
         response.then().assertThat().statusCode(400);
         assertThat(response.jsonPath().getString("message"),
-                is(helper.LACK_DATA_TO_CREATE_COURIER));
+                is(Helper.LACK_DATA_TO_CREATE_COURIER));
     }
 }

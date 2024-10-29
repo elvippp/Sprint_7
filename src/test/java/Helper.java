@@ -7,8 +7,6 @@ import models.Order;
 
 import java.security.SecureRandom;
 
-import static io.restassured.RestAssured.given;
-
 /**
  * Класс помощник для тестов
  */
@@ -18,10 +16,10 @@ public class Helper {
     public static final String COURIER_LOGIN_METHOD = "/api/v1/courier/login";
     public static final String ORDER_METHOD = "/api/v1/orders";
 
-    public String SAME_LOGIN_ERROR_MESSAGE = "Этот логин уже используется. Попробуйте другой.";
-    public String LACK_DATA_TO_CREATE_COURIER = "Недостаточно данных для создания учетной записи";
-    public String NO_SUCH_ACCOUNT = "Учетная запись не найдена";
-    public String LACK_DATA_TO_LOGIN_COURIER = "Недостаточно данных для входа";
+    public static final String SAME_LOGIN_ERROR_MESSAGE = "Этот логин уже используется. Попробуйте другой.";
+    public static final String LACK_DATA_TO_CREATE_COURIER = "Недостаточно данных для создания учетной записи";
+    public static final String NO_SUCH_ACCOUNT = "Учетная запись не найдена";
+    public static final String LACK_DATA_TO_LOGIN_COURIER = "Недостаточно данных для входа";
 
     public Helper() {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";

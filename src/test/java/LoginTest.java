@@ -2,19 +2,15 @@ import io.qameta.allure.junit4.DisplayName;
 import models.Courier;
 import models.Login;
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 /**
@@ -92,7 +88,7 @@ public class LoginTest {
 
         invalidLoginresponse.then().assertThat().statusCode(404);
         assertThat(invalidLoginresponse.jsonPath().getString("message"),
-                is(helper.NO_SUCH_ACCOUNT));
+                is(Helper.NO_SUCH_ACCOUNT));
 
         courierId = helper.getCourierId(new Login(courier.getLogin(), courier.getPassword()));
 
@@ -120,7 +116,7 @@ public class LoginTest {
 
         invalidLoginresponse.then().assertThat().statusCode(404);
         assertThat(invalidLoginresponse.jsonPath().getString("message"),
-                is(helper.NO_SUCH_ACCOUNT));
+                is(Helper.NO_SUCH_ACCOUNT));
 
         courierId = helper.getCourierId(new Login(courier.getLogin(), courier.getPassword()));
 
@@ -148,6 +144,6 @@ public class LoginTest {
 
         response.then().assertThat().statusCode(400);
         assertThat(response.jsonPath().getString("message"),
-                is(helper.LACK_DATA_TO_LOGIN_COURIER));
+                is(Helper.LACK_DATA_TO_LOGIN_COURIER));
     }
 }

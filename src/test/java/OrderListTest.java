@@ -1,4 +1,8 @@
 import io.qameta.allure.Step;
+
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
+
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +22,9 @@ public class OrderListTest {
     @Step("Check status code of all order list")
     public void allOrderListTest() {
         Response response = helper.getOrdersList();
-        response.then().statusCode(200);
+        response.then().assertThat()
+                .body("orders", hasSize(greaterThan(0)))
+                .and()
+                .statusCode(200);
     }
 }
